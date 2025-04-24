@@ -1,4 +1,4 @@
-package notes
+package main
 
 import "github.com/amir-mirjalili/notes.git/model"
 
