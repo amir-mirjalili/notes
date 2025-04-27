@@ -1,6 +1,8 @@
-package user
+package service
 
-import repository "github.com/amir-mirjalili/notes.git/repository/user"
+import (
+	"github.com/amir-mirjalili/notes.git/users/repository"
+)
 
 type Repository interface {
 	List() ([]repository.User, error)

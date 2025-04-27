@@ -1,7 +1,0 @@
-postgres_db:
-  host: localhost
-  port: 5432
-  user: amir
-  password: 1379
-  db_name: note_db
-  ssl_mode: disable

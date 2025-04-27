@@ -1,16 +1,16 @@
 package handler
 
 import (
-	"github.com/amir-mirjalili/notes.git/service/user"
+	"github.com/amir-mirjalili/notes.git/users/service"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
 
 type UserHandler struct {
-	user.Service
+	service.Service
 }
 
-func NewUserHandler(s user.Service) *UserHandler {
+func NewUserHandler(s service.Service) *UserHandler {
 	return &UserHandler{s}
 }
 

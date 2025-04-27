@@ -2,9 +2,13 @@ package main
 
 import (
 	"context"
-	"github.com/amir-mirjalili/notes.git/handler"
-	repository "github.com/amir-mirjalili/notes.git/repository/user"
-	"github.com/amir-mirjalili/notes.git/service/user"
+	noteHandler "github.com/amir-mirjalili/notes.git/notes/handler"
+	noteRepository "github.com/amir-mirjalili/notes.git/notes/repository"
+	noteService "github.com/amir-mirjalili/notes.git/notes/service"
+	userHandler "github.com/amir-mirjalili/notes.git/users/handler"
+	userRepository "github.com/amir-mirjalili/notes.git/users/repository"
+	userService "github.com/amir-mirjalili/notes.git/users/service"
+
 	"github.com/jackc/pgx/v5"
 	"github.com/labstack/echo/v4"
 	"log"
@@ -21,12 +25,20 @@ func main() {
 
 		}
 	}(conn, context.Background())
-	repo := repository.NewUserRepository(conn)
-	service := user.NewService(repo)
-	userHandler := handler.NewUserHandler(service)
+
+	userRepo := userRepository.NewUserRepository(conn)
+	userServe := userService.NewService(userRepo)
+	userHandler := userHandler.NewUserHandler(userServe)
+
+	noteRepo := noteRepository.NewNoteRepository(conn)
+	noteServe := noteService.NewService(noteRepo)
+	noteHandle := noteHandler.NewNoteHandler(noteServe)
 
 	e := echo.New()
-	e.GET("/", userHandler.List)
+
+	e.GET("/users", userHandler.List)
+
+	e.POST("/notes", noteHandle.Create)
 
 	e.Logger.Fatal(e.Start(":8080"))
 
